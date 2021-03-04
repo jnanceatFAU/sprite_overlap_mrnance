@@ -1,15 +1,29 @@
 namespace SpriteKind {
     export const Meat = SpriteKind.create()
+    export const Food1 = SpriteKind.create()
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Meat, function (sprite, otherSprite) {
+    HotDog.say("Oink", 500)
+    pause(500)
+    Head.say("Yuck, That's Meat", 2000)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    otherSprite.destroy(effects.hearts, 500)
+    Broccoli.say("chomp", 500)
+    pause(200)
+    Head.say("yum", 500)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food1, function (sprite, otherSprite) {
     otherSprite.destroy(effects.spray, 500)
     Apple.say("crunch", 500)
     pause(200)
     Head.say("yum", 500)
 })
+let HotDog: Sprite = null
 let Head: Sprite = null
 let Apple: Sprite = null
-let Broccoli = sprites.create(img`
+let Broccoli: Sprite = null
+Broccoli = sprites.create(img`
     . . . . 7 7 6 7 7 6 6 . . . . . 
     . . . 6 7 6 6 6 7 6 6 . 6 6 . . 
     . . 7 6 6 6 6 6 6 6 6 7 6 6 . . 
@@ -44,7 +58,7 @@ Apple = sprites.create(img`
     . . . . . 2 2 2 2 2 2 2 2 . . . 
     . . . . . . 2 2 2 2 2 2 2 . . . 
     . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Food)
+    `, SpriteKind.Food1)
 Head = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
@@ -81,7 +95,7 @@ let Steak = sprites.create(img`
     . . . . . . 2 2 2 . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Meat)
-let HotDog = sprites.create(img`
+HotDog = sprites.create(img`
     ................................
     ................................
     ................................
@@ -115,6 +129,7 @@ let HotDog = sprites.create(img`
     ................................
     ................................
     `, SpriteKind.Meat)
+Steak.setFlag(SpriteFlag.Ghost, true)
 Head.setPosition(20, 60)
 Apple.setPosition(120, 60)
 Broccoli.setPosition(150, 25)
@@ -122,4 +137,5 @@ HotDog.setPosition(134, 105)
 Steak.setPosition(60, 18)
 game.onUpdate(function () {
     Head.x += controller.dx(100)
+    Head.y += controller.dy(100)
 })
